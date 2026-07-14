@@ -159,58 +159,102 @@ New("UIListLayout", {
 })
 
 function Library:Notify(opts)
-    local title = opts.Title    or "Notice"
-    local body  = opts.Text     or ""
-    local dur   = opts.Duration or 4
-    local ntype = opts.Type     or "info"
-    local barCol = (ntype=="success") and T.Green or (ntype=="error") and T.Red or T.Accent
+    local title  = opts.Title    or "Notice"
+    local body   = opts.Text     or ""
+    local dur    = opts.Duration or 4
+    local ntype  = opts.Type     or "info"
+    local barCol = (ntype == "success") and T.Green
+                or (ntype == "error")   and T.Red
+                or T.Accent
+
+    -- FIX 1: No TextTransparency animation — set text visible immediately
+    -- FIX 2: No Position animation — UIListLayout controls position, setting it breaks things
+    -- FIX 3: Use spawn+wait instead of task.delay for maximum executor compatibility
 
     local Card = New("Frame", {
-        Parent              = NotifHolder,
-        BackgroundColor3    = T.Panel,
-        Size                = UDim2.new(1, 0, 0, 72),
-        BackgroundTransparency = 1,
-        ClipsDescendants    = true,
+        Parent           = NotifHolder,
+        BackgroundColor3 = T.Panel,
+        Size             = UDim2.new(1, 0, 0, 72),
+        ClipsDescendants = false,
     })
     Corner(10, Card)
-    local cs = Stroke(T.Border, 1, Card)
+    Stroke(T.Border, 1, Card)
 
-    New("Frame",{Parent=Card,BackgroundColor3=barCol,
-        Position=UDim2.new(0,0,0.1,0),Size=UDim2.new(0,3,0.8,0),BorderSizePixel=0})
+    -- Left accent bar
+    New("Frame", {
+        Parent           = Card,
+        BackgroundColor3 = barCol,
+        Position         = UDim2.new(0, 0, 0.1, 0),
+        Size             = UDim2.new(0, 3, 0.8, 0),
+        BorderSizePixel  = 0,
+    })
 
-    local TLbl = New("TextLabel",{Parent=Card,BackgroundTransparency=1,
-        Position=UDim2.new(0,16,0,10),Size=UDim2.new(1,-20,0,18),
-        Font=Enum.Font.GothamBold,Text=title,TextColor3=T.Text,TextSize=13,
-        TextXAlignment=Enum.TextXAlignment.Left,TextTransparency=1})
-    local BLbl = New("TextLabel",{Parent=Card,BackgroundTransparency=1,
-        Position=UDim2.new(0,16,0,29),Size=UDim2.new(1,-20,0,28),
-        Font=Enum.Font.Gotham,Text=body,TextColor3=T.Muted,TextSize=12,
-        TextXAlignment=Enum.TextXAlignment.Left,TextWrapped=true,TextTransparency=1})
+    -- Title — immediately visible (no TextTransparency trickery)
+    New("TextLabel", {
+        Parent              = Card,
+        BackgroundTransparency = 1,
+        Position            = UDim2.new(0, 16, 0, 8),
+        Size                = UDim2.new(1, -20, 0, 20),
+        Font                = Enum.Font.GothamBold,
+        Text                = title,
+        TextColor3          = T.Text,
+        TextSize            = 13,
+        TextXAlignment      = Enum.TextXAlignment.Left,
+    })
 
-    local TBG = New("Frame",{Parent=Card,BackgroundColor3=T.Card,
-        Position=UDim2.new(0,16,1,-7),Size=UDim2.new(1,-32,0,3),BackgroundTransparency=1})
-    Corner(2,TBG)
-    local TFill = New("Frame",{Parent=TBG,BackgroundColor3=barCol,
-        Size=UDim2.new(1,0,1,0),BackgroundTransparency=1})
-    Corner(2,TFill)
+    -- Body text — immediately visible
+    New("TextLabel", {
+        Parent              = Card,
+        BackgroundTransparency = 1,
+        Position            = UDim2.new(0, 16, 0, 28),
+        Size                = UDim2.new(1, -20, 0, 30),
+        Font                = Enum.Font.Gotham,
+        Text                = body,
+        TextColor3          = T.Muted,
+        TextSize            = 12,
+        TextXAlignment      = Enum.TextXAlignment.Left,
+        TextWrapped         = true,
+    })
 
-    Card.Position = UDim2.new(1,16,0,0)
-    Tw(Card,0.3,{BackgroundTransparency=0,Position=UDim2.new(0,0,0,0)})
-    Tw(cs,0.3,{Transparency=0});Tw(TLbl,0.3,{TextTransparency=0})
-    Tw(BLbl,0.3,{TextTransparency=0});Tw(TBG,0.3,{BackgroundTransparency=0})
-    Tw(TFill,0.3,{BackgroundTransparency=0})
+    -- Timer bar background
+    local TBG = New("Frame", {
+        Parent           = Card,
+        BackgroundColor3 = T.Card,
+        Position         = UDim2.new(0, 16, 1, -7),
+        Size             = UDim2.new(1, -32, 0, 3),
+    })
+    Corner(2, TBG)
+    local TFill = New("Frame", {
+        Parent           = TBG,
+        BackgroundColor3 = barCol,
+        Size             = UDim2.new(1, 0, 1, 0),
+    })
+    Corner(2, TFill)
 
-    task.delay(0.3, function()
-        Tw(TFill,dur,{Size=UDim2.new(0,0,1,0)},Enum.EasingStyle.Linear)
-    end)
-    task.delay(0.3+dur, function()
-        Tw(Card,0.3,{BackgroundTransparency=1,Position=UDim2.new(1,16,0,0)})
-        Tw(cs,0.3,{Transparency=1});Tw(TLbl,0.3,{TextTransparency=1})
-        Tw(BLbl,0.3,{TextTransparency=1});Tw(TBG,0.3,{BackgroundTransparency=1})
-        Tw(TFill,0.3,{BackgroundTransparency=1})
-        task.delay(0.31,function() Card:Destroy() end)
+    -- Fade in the card background only
+    Card.BackgroundTransparency = 1
+    TweenService:Create(Card, TweenInfo.new(0.25, Enum.EasingStyle.Quad), {BackgroundTransparency = 0}):Play()
+
+    -- Start timer bar shrink after fade-in
+    TweenService:Create(
+        TFill,
+        TweenInfo.new(dur, Enum.EasingStyle.Linear),
+        { Size = UDim2.new(0, 0, 1, 0) }
+    ):Play()
+
+    -- Auto-remove using spawn+wait (works on all executors)
+    spawn(function()
+        wait(dur)
+        -- Fade out
+        local fadeOut = TweenService:Create(Card, TweenInfo.new(0.3, Enum.EasingStyle.Quad), {BackgroundTransparency = 1})
+        fadeOut:Play()
+        wait(0.35)
+        if Card and Card.Parent then
+            Card:Destroy()
+        end
     end)
 end
+
 
 -- ─────────────────────────────────────────────────────────────
 --  COLOR PICKER POPUP
