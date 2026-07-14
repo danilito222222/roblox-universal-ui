@@ -14,7 +14,7 @@ A beautiful, modern, and universal UI library for Roblox exploit scripts, inspir
 Once you upload `library.lua` to GitHub (or any raw text hosting service like Pastebin), you can load it in your scripts like this:
 
 ```lua
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/library.lua"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/danilito222222/roblox-universal-ui/master/library.lua"))()
 ```
 
 *(Note: Replace the URL above with the actual raw URL of your `library.lua` file after publishing it.)*
@@ -25,7 +25,7 @@ Here is a full example of how to build a UI using this library:
 
 ```lua
 -- Load the library
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/library.lua"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/danilito222222/roblox-universal-ui/master/library.lua"))()
 
 -- Create a Window
 local Window = Library:CreateWindow({
