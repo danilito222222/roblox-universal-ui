@@ -155,8 +155,9 @@ function Library:CreateWindow(options)
         Active = true,
         BackgroundTransparency = 1,
         Position = UDim2.new(0, 0, 0, 10),
-        Size = UDim2.new(1, 0, 1, -20),
-        ScrollBarThickness = 0,
+        Size = UDim2.new(1, 0, 1, -40),
+        ScrollBarThickness = 2,
+        ScrollBarImageColor3 = Theme.Accent,
         CanvasSize = UDim2.new(0, 0, 0, 0)
     })
     local TabListLayout = Create("UIListLayout", {
@@ -164,6 +165,19 @@ function Library:CreateWindow(options)
         SortOrder = Enum.SortOrder.LayoutOrder,
         Padding = UDim.new(0, 5),
         HorizontalAlignment = Enum.HorizontalAlignment.Center
+    })
+
+    local Watermark = Create("TextLabel", {
+        Name = "Watermark",
+        Parent = Sidebar,
+        BackgroundTransparency = 1,
+        Position = UDim2.new(0, 0, 1, -30),
+        Size = UDim2.new(1, 0, 0, 30),
+        Font = Enum.Font.Gotham,
+        Text = "by NochHawk",
+        TextColor3 = Theme.TextDark,
+        TextSize = 11,
+        TextTransparency = 0.5
     })
 
     local ContentContainer = Create("Frame", {
@@ -198,8 +212,9 @@ function Library:CreateWindow(options)
             Active = true,
             BackgroundTransparency = 1,
             Size = UDim2.new(1, 0, 1, 0),
-            ScrollBarThickness = 4,
+            ScrollBarThickness = 3,
             ScrollBarImageColor3 = Theme.Accent,
+            BorderSizePixel = 0,
             Visible = false,
             CanvasSize = UDim2.new(0, 0, 0, 0)
         })

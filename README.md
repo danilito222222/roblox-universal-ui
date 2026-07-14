@@ -1,40 +1,25 @@
 <div align="center">
-  <h1>✨ Roblox Universal UI Library ✨</h1>
-  <p>A modern, fluid, and highly customizable UI library for Roblox script execution.</p>
-  
-  [![Lua](https://img.shields.io/badge/Language-Lua-blue.svg)](https://www.lua.org/)
-  [![Roblox](https://img.shields.io/badge/Platform-Roblox-red.svg)](https://www.roblox.com/)
-  [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+  <h1>Roblox Universal UI Library</h1>
+  <p>A modern and clean UI library for Roblox scripts.</p>
 </div>
 
 ---
 
-## 🚀 Overview
+## Overview
 
-**Roblox Universal UI** is designed to give your exploit scripts a beautiful, Fluent-inspired look. It works flawlessly across **all major executors** (Synapse X, Krnl, Script-Ware, Fluxus, Delta, etc.).
+**Roblox Universal UI** is a lightweight, responsive library for your exploit scripts. It features a clean design, smooth animations, and a straightforward API.
 
-### 🛡️ Compatibility & Audit
-- **CoreGui Support**: Automatically attempts to place the UI in `CoreGui` to protect it from being detected by game anti-cheats. If `CoreGui` is restricted (on weaker executors), it gracefully falls back to `PlayerGui`.
-- **Anti-Break Layout**: Uses dynamic `UIListLayout` calculation, meaning you can add 1,000+ buttons and the scrollbar will automatically adjust.
-- **Persistent**: `ResetOnSpawn` is disabled, so your UI won't disappear when your character dies.
-
----
-
-## ⚡ Features
-
-| Feature | Description |
-|---|---|
-| 🖱️ **Smooth Dragging** | Grab the top bar to easily drag the window across your screen. |
-| 🗂️ **Tab System** | Organize your script features cleanly into multiple tabs. |
-| 🎨 **Fluid Animations** | Every interaction features premium `TweenService` animations (e.g., Ripple effects on buttons). |
-| ⌨️ **Quick Toggle** | Press **`Right Shift`** to hide/show the menu instantly. |
-| ❌ **Close Button** | Click the **`X`** in the top right to completely unload the UI from the game. |
+### Features
+- Smooth window dragging and fluid animations.
+- Clean tab system for organizing elements.
+- Toggle visibility instantly with **`Right Shift`**.
+- Fully automatic layout and scrollbar resizing.
 
 ---
 
-## 📦 How to Load (Quick Start)
+## Quick Start
 
-You can load this library directly into any of your scripts without downloading files. Just use `loadstring`:
+You can load this library directly into any script using `loadstring`:
 
 ```lua
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/danilito222222/roblox-universal-ui/master/library.lua"))()
@@ -42,9 +27,9 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/danil
 
 ---
 
-## 🛠️ API Reference & Examples
+## API Reference & Example
 
-Here is a comprehensive example demonstrating everything you can create. Copy and paste this to see it in action!
+Here is a comprehensive example demonstrating how to build your interface:
 
 ```lua
 -- 1. Load the Library
@@ -52,16 +37,12 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/danil
 
 -- 2. Create the Main Window
 local Window = Library:CreateWindow({
-    Title = "🔥 My Awesome Script"
+    Title = "My Awesome Script"
 })
 
 -- 3. Create Tabs
 local MainTab = Window:CreateTab("Player")
 local CombatTab = Window:CreateTab("Combat")
-
--- ==========================================
--- 🟢 PLAYER TAB ELEMENTS
--- ==========================================
 
 -- Button
 MainTab:CreateButton({
@@ -77,7 +58,6 @@ MainTab:CreateToggle({
     Default = false,
     Callback = function(state)
         print("Auto-farm is now:", state)
-        -- `state` is true or false
     end
 })
 
@@ -92,14 +72,10 @@ MainTab:CreateSlider({
     end
 })
 
--- ==========================================
--- 🔴 COMBAT TAB ELEMENTS
--- ==========================================
-
 -- Dropdown
 CombatTab:CreateDropdown({
     Name = "Select Target",
-    Options = {"Noob1", "ProGamer", "Admin"},
+    Options = {"Player1", "Player2", "Admin"},
     Callback = function(selected)
         print("You selected:", selected)
     end
@@ -109,5 +85,5 @@ CombatTab:CreateDropdown({
 ---
 
 <div align="center">
-  <p>Made with ❤️ by the open-source community. Feel free to fork and modify!</p>
+  <p>by NochHawk</p>
 </div>
