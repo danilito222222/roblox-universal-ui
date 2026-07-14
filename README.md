@@ -1,82 +1,113 @@
-# Universal UI Library for Roblox
+<div align="center">
+  <h1>✨ Roblox Universal UI Library ✨</h1>
+  <p>A modern, fluid, and highly customizable UI library for Roblox script execution.</p>
+  
+  [![Lua](https://img.shields.io/badge/Language-Lua-blue.svg)](https://www.lua.org/)
+  [![Roblox](https://img.shields.io/badge/Platform-Roblox-red.svg)](https://www.roblox.com/)
+  [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+</div>
 
-A beautiful, modern, and universal UI library for Roblox exploit scripts, inspired by Fluent Design.
+---
 
-## Features
-- Smooth drag-and-drop window mechanics.
-- Organized tab system.
-- Interactive elements: Buttons, Toggles, Sliders, Dropdowns.
-- Fluid animations with `TweenService`.
-- Supports any Roblox executor (Synapse, Krnl, Fluxus, etc.).
+## 🚀 Overview
 
-## How to Use (Loadstring)
+**Roblox Universal UI** is designed to give your exploit scripts a beautiful, Fluent-inspired look. It works flawlessly across **all major executors** (Synapse X, Krnl, Script-Ware, Fluxus, Delta, etc.).
 
-Once you upload `library.lua` to GitHub (or any raw text hosting service like Pastebin), you can load it in your scripts like this:
+### 🛡️ Compatibility & Audit
+- **CoreGui Support**: Automatically attempts to place the UI in `CoreGui` to protect it from being detected by game anti-cheats. If `CoreGui` is restricted (on weaker executors), it gracefully falls back to `PlayerGui`.
+- **Anti-Break Layout**: Uses dynamic `UIListLayout` calculation, meaning you can add 1,000+ buttons and the scrollbar will automatically adjust.
+- **Persistent**: `ResetOnSpawn` is disabled, so your UI won't disappear when your character dies.
+
+---
+
+## ⚡ Features
+
+| Feature | Description |
+|---|---|
+| 🖱️ **Smooth Dragging** | Grab the top bar to easily drag the window across your screen. |
+| 🗂️ **Tab System** | Organize your script features cleanly into multiple tabs. |
+| 🎨 **Fluid Animations** | Every interaction features premium `TweenService` animations (e.g., Ripple effects on buttons). |
+| ⌨️ **Quick Toggle** | Press **`Right Shift`** to hide/show the menu instantly. |
+| ❌ **Close Button** | Click the **`X`** in the top right to completely unload the UI from the game. |
+
+---
+
+## 📦 How to Load (Quick Start)
+
+You can load this library directly into any of your scripts without downloading files. Just use `loadstring`:
 
 ```lua
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/danilito222222/roblox-universal-ui/master/library.lua"))()
 ```
 
-*(Note: Replace the URL above with the actual raw URL of your `library.lua` file after publishing it.)*
+---
 
-## Example Script
+## 🛠️ API Reference & Examples
 
-Here is a full example of how to build a UI using this library:
+Here is a comprehensive example demonstrating everything you can create. Copy and paste this to see it in action!
 
 ```lua
--- Load the library
+-- 1. Load the Library
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/danilito222222/roblox-universal-ui/master/library.lua"))()
 
--- Create a Window
+-- 2. Create the Main Window
 local Window = Library:CreateWindow({
-    Title = "My Awesome Script"
+    Title = "🔥 My Awesome Script"
 })
 
--- Create Tabs
-local MainTab = Window:CreateTab("Main")
-local SettingsTab = Window:CreateTab("Settings")
+-- 3. Create Tabs
+local MainTab = Window:CreateTab("Player")
+local CombatTab = Window:CreateTab("Combat")
 
--- Add Elements to the Main Tab
+-- ==========================================
+-- 🟢 PLAYER TAB ELEMENTS
+-- ==========================================
+
+-- Button
 MainTab:CreateButton({
-    Name = "Kill All Players",
+    Name = "Heal Player",
     Callback = function()
-        print("Executing Kill All...")
+        print("Heal button clicked!")
     end
 })
 
+-- Toggle (Switch)
 MainTab:CreateToggle({
-    Name = "Auto Farm",
+    Name = "Auto-Farm",
     Default = false,
     Callback = function(state)
-        print("Auto Farm state:", state)
+        print("Auto-farm is now:", state)
+        -- `state` is true or false
     end
 })
 
+-- Slider
 MainTab:CreateSlider({
     Name = "WalkSpeed",
     Min = 16,
-    Max = 200,
+    Max = 250,
     Default = 16,
     Callback = function(value)
         game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
     end
 })
 
--- Add Elements to the Settings Tab
-SettingsTab:CreateDropdown({
+-- ==========================================
+-- 🔴 COMBAT TAB ELEMENTS
+-- ==========================================
+
+-- Dropdown
+CombatTab:CreateDropdown({
     Name = "Select Target",
-    Options = {"Player1", "Player2", "Player3"},
+    Options = {"Noob1", "ProGamer", "Admin"},
     Callback = function(selected)
-        print("Selected target:", selected)
+        print("You selected:", selected)
     end
 })
 ```
 
-## How to publish to GitHub
+---
 
-Since this was generated locally, here are the steps to publish it to your own GitHub account:
-1. Go to [GitHub](https://github.com/) and create a new repository (e.g., `roblox-ui-lib`).
-2. Upload the `library.lua` file to this repository.
-3. Once uploaded, open `library.lua` in GitHub and click the **Raw** button.
-4. Copy the URL from your browser (it should start with `https://raw.githubusercontent.com/...`).
-5. Use that URL in your `loadstring` function!
+<div align="center">
+  <p>Made with ❤️ by the open-source community. Feel free to fork and modify!</p>
+</div>
