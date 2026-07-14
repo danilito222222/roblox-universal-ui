@@ -37,23 +37,34 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/danil
 
 -- 2. Create the Main Window
 local Window = Library:CreateWindow({
-    Title = "My Awesome Script"
+    Title = "Premium Hub V2"
 })
 
 -- 3. Create Tabs
-local MainTab = Window:CreateTab("Player")
-local CombatTab = Window:CreateTab("Combat")
+local MainTab = Window:CreateTab("Main")
+local SettingsTab = Window:CreateTab("Settings")
 
--- Button
+-- ==========================================
+-- MAIN TAB ELEMENTS
+-- ==========================================
+
+-- Sections
+MainTab:CreateSection("Character Mods")
+
+-- Button with Notification
 MainTab:CreateButton({
     Name = "Heal Player",
     Callback = function()
-        print("Heal button clicked!")
+        Library:Notify({
+            Title = "Success",
+            Text = "Player has been healed to 100 HP!",
+            Duration = 3
+        })
     end
 })
 
--- Toggle (Switch)
-MainTab:CreateToggle({
+-- Toggle
+local AutoFarmToggle = MainTab:CreateToggle({
     Name = "Auto-Farm",
     Default = false,
     Callback = function(state)
@@ -61,25 +72,61 @@ MainTab:CreateToggle({
     end
 })
 
--- Slider
+-- Slider (With Floats!)
 MainTab:CreateSlider({
-    Name = "WalkSpeed",
-    Min = 16,
-    Max = 250,
-    Default = 16,
+    Name = "Jump Power Multiplier",
+    Min = 1,
+    Max = 5,
+    Default = 1.5,
+    Float = true, -- Now supports decimal numbers!
     Callback = function(value)
-        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
+        print("Jump Multiplier:", value)
     end
 })
 
--- Dropdown
-CombatTab:CreateDropdown({
-    Name = "Select Target",
-    Options = {"Player1", "Player2", "Admin"},
-    Callback = function(selected)
-        print("You selected:", selected)
+-- TextBox (Input)
+MainTab:CreateTextBox({
+    Name = "Teleport to Player",
+    Default = "Username...",
+    Callback = function(text)
+        print("Teleporting to:", text)
     end
 })
+
+-- ==========================================
+-- SETTINGS TAB ELEMENTS
+-- ==========================================
+SettingsTab:CreateSection("Preferences")
+
+-- Dropdown
+SettingsTab:CreateDropdown({
+    Name = "Select Theme",
+    Options = {"Dark", "Light", "Abyss"},
+    Callback = function(selected)
+        print("Theme:", selected)
+    end
+})
+
+-- Keybind
+SettingsTab:CreateKeybind({
+    Name = "Toggle Menu Key",
+    Default = Enum.KeyCode.RightShift,
+    Callback = function()
+        print("Keybind pressed!")
+    end
+})
+
+-- Color Picker
+SettingsTab:CreateColorPicker({
+    Name = "ESP Color",
+    Default = Color3.fromRGB(255, 0, 0),
+    Callback = function(color)
+        print("New ESP Color set!")
+    end
+})
+
+-- Programmatically change values later:
+-- AutoFarmToggle:Set(true)
 ```
 
 ---
